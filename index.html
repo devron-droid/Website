@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Invicta Planner</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ LOADING SCREEN ============ -->
+<div id="loading-screen">
+  <div class="loading-inner">
+    <h1 class="loading-title">INVICTA PLANNER</h1>
+    <p class="loading-sub">Preparing your workspace...</p>
+    <div class="loading-bar"><span></span></div>
+  </div>
+</div>
+
+<!-- ============ WELCOME SCREEN ============ -->
+<div id="welcome-screen" class="hidden">
+  <div class="welcome-inner fade-in">
+    <p class="welcome-eyebrow">Focus. Plan. Execute.</p>
+    <h1 class="welcome-title">Welcome to Invicta Planner</h1>
+    <p class="welcome-sub">Plan your day.<br>Stay focused.<br>Achieve more.</p>
+    <button id="get-started-btn" class="btn-primary">Get Started</button>
+  </div>
+</div>
+
+<!-- ============ NAME SETUP ============ -->
+<div id="name-screen" class="hidden">
+  <div class="welcome-inner fade-in">
+    <h1 class="welcome-title">Enter Your Name</h1>
+    <input type="text" id="name-input" class="text-input" placeholder="Your name" maxlength="30" autocomplete="off">
+    <button id="name-continue-btn" class="btn-primary">Continue</button>
+  </div>
+</div>
+
+<!-- ============ APP SHELL ============ -->
+<div id="app-shell" class="hidden">
+
+  <!-- Sidebar -->
+  <nav id="sidebar">
+    <div class="sidebar-top">
+      <div class="brand">
+        <span class="brand-mark">IP</span>
+        <span class="brand-name">Invicta</span>
+      </div>
+      <button id="sidebar-toggle" class="icon-btn" aria-label="Toggle sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="nav-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+      <input type="text" id="global-search" placeholder="Search everything...">
+    </div>
+    <ul class="nav-list" id="nav-list">
+      <li data-view="dashboard" class="nav-item active"><span class="nav-icon" data-icon="dashboard"></span><span class="nav-label">Dashboard</span></li>
+      <li data-view="tasks" class="nav-item"><span class="nav-icon" data-icon="tasks"></span><span class="nav-label">Tasks</span></li>
+      <li data-view="habits" class="nav-item"><span class="nav-icon" data-icon="habits"></span><span class="nav-label">Habits</span></li>
+      <li data-view="goals" class="nav-item"><span class="nav-icon" data-icon="goals"></span><span class="nav-label">Goals</span></li>
+      <li data-view="calendar" class="nav-item"><span class="nav-icon" data-icon="calendar"></span><span class="nav-label">Calendar</span></li>
+      <li data-view="notes" class="nav-item"><span class="nav-icon" data-icon="notes"></span><span class="nav-label">Notes</span></li>
+      <li data-view="journal" class="nav-item"><span class="nav-icon" data-icon="journal"></span><span class="nav-label">Journal</span></li>
+      <li data-view="pomodoro" class="nav-item"><span class="nav-icon" data-icon="pomodoro"></span><span class="nav-label">Pomodoro</span></li>
+      <li data-view="analytics" class="nav-item"><span class="nav-icon" data-icon="analytics"></span><span class="nav-label">Analytics</span></li>
+      <li data-view="water" class="nav-item"><span class="nav-icon" data-icon="water"></span><span class="nav-label">Water</span></li>
+      <li data-view="mood" class="nav-item"><span class="nav-icon" data-icon="mood"></span><span class="nav-label">Mood</span></li>
+      <li data-view="quotes" class="nav-item"><span class="nav-icon" data-icon="quotes"></span><span class="nav-label">Quotes</span></li>
+      <li data-view="profile" class="nav-item"><span class="nav-icon" data-icon="profile"></span><span class="nav-label">Profile</span></li>
+      <li data-view="settings" class="nav-item"><span class="nav-icon" data-icon="settings"></span><span class="nav-label">Settings</span></li>
+    </ul>
+    <div class="sidebar-bottom">
+      <div class="user-chip" id="sidebar-user-chip">
+        <div class="avatar" id="sidebar-avatar">U</div>
+        <span id="sidebar-username">User</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Search Results Overlay -->
+  <div id="search-overlay" class="hidden">
+    <div class="search-panel">
+      <div class="search-panel-head">
+        <h3>Search results</h3>
+        <button class="icon-btn" id="close-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg></button>
+      </div>
+      <div id="search-results" class="search-results"></div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <main id="main-content">
+
+    <!-- DASHBOARD -->
+    <section class="view active" id="view-dashboard">
+      <header class="view-header">
+        <div>
+          <p class="greeting" id="greeting-text">Good Morning</p>
+          <h1 id="hello-name">Hello, User</h1>
+        </div>
+        <div class="header-datetime">
+          <span id="header-date"></span>
+          <span id="header-time"></span>
+        </div>
+      </header>
+
+      <div class="focus-card glass">
+        <div class="focus-info">
+          <p class="eyebrow">Today's Focus</p>
+          <input type="text" id="today-focus-input" class="focus-input" placeholder="What matters most today?">
+        </div>
+        <div class="focus-quote" id="dash-quote">"The secret of getting ahead is getting started."</div>
+      </div>
+
+      <div class="grid-cards" id="dashboard-grid">
+        <!-- populated by JS but also has static skeleton for immediate paint -->
+        <div class="grid-card glass" data-nav="tasks">
+          <div class="grid-card-top"><span class="nav-icon" data-icon="tasks"></span><span class="grid-card-title">Tasks</span></div>
+          <div class="grid-card-stat" id="stat-tasks">0 / 0</div>
+          <div class="grid-card-sub">completed today</div>
+        </div>
+        <div class="grid-card glass" data-nav="habits">
+          <div class="grid-card-top"><span class="nav-icon" data-icon="habits"></span><span class="grid-card-title">Habits</span></div>
+          <div class="grid-card-stat" id="stat-habits">0 / 0</div>
+          <div class="grid-card-sub">checked today</div>
+        </div>
+        <div class="grid-card glass" data-nav="goals">
+          <div class="grid-card-top"><span class="nav-icon" data-icon="goals"></span><span class="grid-card-title">Goals</span></div>
+          <div class="grid-card-stat" id="stat-goals">0</div>
+          <div class="grid-card-sub">active goals</div>
+        </div>
+        <div class="grid-card glass" data-nav="calendar">
+          <div class="grid-card-top"><span class="nav-icon" data-icon="calendar"></span><span class="grid-card-title">Calendar</span></div>
+          <div class="grid-card-stat" id="stat-calendar">--</div>
+          <div class="grid-card-sub">today's date</div>
+        </div>
+        <div class="grid-card glass" data-nav="notes">
+          <div class="grid-card-top"><span class="nav-icon" data-icon="notes"></span><span class="grid-card-title">Notes</span></div>
+          <div class="grid-card-stat" id="stat-notes">0</div>
+          <div class="grid-card-sub">saved notes</div>
+        </div>
+        <div class="grid-card glass" data-nav="journal">
+          <div class="grid-card-top"><span class="nav-icon" data-icon="journal"></span><span class="grid-card-title">Journal</span></div>
+          <div class="grid-card-stat" id="stat-journal">0</div>
+          <div class="grid-card-sub">entries written</div>
+        </div>
+        <div class="grid-card glass" data-nav="pomodoro">
+          <div class="grid-card-top"><span class="nav-icon" data-icon="pomodoro"></span><span class="grid-card-title">Pomodoro</span></div>
+          <div class="grid-card-stat" id="stat-pomodoro">0</div>
+          <div class="grid-card-sub">sessions today</div>
+        </div>
+        <div class="grid-card glass" data-nav="water">
+          <div class="grid-card-top"><span class="nav-icon" data-icon="water"></span><span class="grid-card-title">Water</span></div>
+          <div class="grid-card-stat" id="stat-water">0 ml</div>
+          <div class="grid-card-sub">of daily goal</div>
+        </div>
+        <div class="grid-card glass" data-nav="mood">
+          <div class="grid-card-top"><span class="nav-icon" data-icon="mood"></span><span class="grid-card-title">Mood</span></div>
+          <div class="grid-card-stat" id="stat-mood">--</div>
+          <div class="grid-card-sub">today's mood</div>
+        </div>
+        <div class="grid-card glass" data-nav="analytics">
+          <div class="grid-card-top"><span class="nav-icon" data-icon="analytics"></span><span class="grid-card-title">Analytics</span></div>
+          <div class="grid-card-stat" id="stat-analytics">View</div>
+          <div class="grid-card-sub">your progress</div>
+        </div>
+        <div class="grid-card glass" data-nav="quotes">
+          <div class="grid-card-top"><span class="nav-icon" data-icon="quotes"></span><span class="grid-card-title">Daily Quotes</span></div>
+          <div class="grid-card-stat">Inspire</div>
+          <div class="grid-card-sub">get motivated</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TASKS -->
+    <section class="view" id="view-tasks">
+      <header class="view-header"><h1>Tasks</h1><button class="btn-primary sm" id="add-task-btn">+ New Task</button></header>
+      <div class="toolbar glass">
+        <input type="text" id="task-search" class="toolbar-input" placeholder="Search tasks...">
+        <select id="task-filter" class="toolbar-select">
+          <option value="all">All</option>
+          <option value="active">Active</option>
+          <option value="completed">Completed</option>
+        </select>
+        <select id="task-sort" class="toolbar-select">
+          <option value="created">Sort: Newest</option>
+          <option value="priority">Sort: Priority</option>
+          <option value="due">Sort: Due date</option>
+        </select>
+      </div>
+      <div class="progress-block glass">
+        <div class="progress-row"><span id="task-counter">0 of 0 tasks completed</span><span id="task-percent">0%</span></div>
+        <div class="progress-track"><div class="progress-fill" id="task-progress-fill"></div></div>
+      </div>
+      <ul class="list" id="task-list"></ul>
+      <div class="empty-state hidden" id="task-empty">
+        <p>No tasks yet. Add your first task to get moving.</p>
+      </div>
+    </section>
+
+    <!-- HABITS -->
+    <section class="view" id="view-habits">
+      <header class="view-header"><h1>Habits</h1><button class="btn-primary sm" id="add-habit-btn">+ New Habit</button></header>
+      <div class="grid-cards" id="habit-list"></div>
+      <div class="empty-state hidden" id="habit-empty"><p>No habits tracked yet. Start building one today.</p></div>
+    </section>
+
+    <!-- GOALS -->
+    <section class="view" id="view-goals">
+      <header class="view-header"><h1>Goals</h1><button class="btn-primary sm" id="add-goal-btn">+ New Goal</button></header>
+      <div class="list" id="goal-list"></div>
+      <div class="empty-state hidden" id="goal-empty"><p>No goals set. Define what you're working toward.</p></div>
+    </section>
+
+    <!-- CALENDAR -->
+    <section class="view" id="view-calendar">
+      <header class="view-header"><h1>Calendar</h1></header>
+      <div class="calendar-card glass">
+        <div class="calendar-nav">
+          <button class="icon-btn" id="cal-prev">&#8249;</button>
+          <h2 id="cal-month-label"></h2>
+          <button class="icon-btn" id="cal-next">&#8250;</button>
+        </div>
+        <div class="calendar-grid" id="calendar-grid"></div>
+      </div>
+      <div class="glass day-panel" id="day-panel">
+        <h3 id="day-panel-title">Select a date</h3>
+        <div id="day-panel-content"></div>
+      </div>
+    </section>
+
+    <!-- NOTES -->
+    <section class="view" id="view-notes">
+      <header class="view-header"><h1>Notes</h1><button class="btn-primary sm" id="add-note-btn">+ New Note</button></header>
+      <div class="toolbar glass">
+        <input type="text" id="note-search" class="toolbar-input" placeholder="Search notes...">
+        <select id="note-category-filter" class="toolbar-select">
+          <option value="all">All categories</option>
+          <option value="General">General</option>
+          <option value="Work">Work</option>
+          <option value="Personal">Personal</option>
+          <option value="Ideas">Ideas</option>
+        </select>
+      </div>
+      <div class="grid-cards" id="note-list"></div>
+      <div class="empty-state hidden" id="note-empty"><p>No notes yet. Capture your first thought.</p></div>
+    </section>
+
+    <!-- JOURNAL -->
+    <section class="view" id="view-journal">
+      <header class="view-header"><h1>Journal</h1><button class="btn-primary sm" id="add-journal-btn">+ New Entry</button></header>
+      <input type="text" id="journal-search" class="toolbar-input glass" placeholder="Search journal...">
+      <div class="timeline" id="journal-list"></div>
+      <div class="empty-state hidden" id="journal-empty"><p>No journal entries yet. Write about your day.</p></div>
+    </section>
+
+    <!-- POMODORO -->
+    <section class="view" id="view-pomodoro">
+      <header class="view-header"><h1>Pomodoro Timer</h1></header>
+      <div class="pomodoro-layout">
+        <div class="pomodoro-card glass">
+          <div class="pomodoro-modes">
+            <button class="mode-btn active" data-mins="25">25 min</button>
+            <button class="mode-btn" data-mins="50">50 min</button>
+            <button class="mode-btn" data-mins="custom">Custom</button>
+          </div>
+          <div class="custom-timer-row hidden" id="custom-timer-row">
+            <input type="number" id="custom-minutes" min="1" max="180" placeholder="Minutes">
+            <button class="btn-secondary sm" id="set-custom-timer">Set</button>
+          </div>
+          <div class="timer-ring-wrap">
+            <svg viewBox="0 0 240 240" class="timer-ring">
+              <circle cx="120" cy="120" r="108" class="ring-bg"/>
+              <circle cx="120" cy="120" r="108" class="ring-progress" id="ring-progress"/>
+            </svg>
+            <div class="timer-display" id="timer-display">25:00</div>
+          </div>
+          <div class="pomodoro-controls">
+            <button class="btn-secondary" id="timer-start">Start</button>
+            <button class="btn-secondary" id="timer-pause">Pause</button>
+            <button class="btn-secondary" id="timer-reset">Reset</button>
+            <button class="icon-btn" id="timer-mute" title="Mute"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15 9a3 3 0 010 6M17.5 6.5a7 7 0 010 11" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+        <div class="pomodoro-stats glass">
+          <h3>Statistics</h3>
+          <div class="stat-row"><span>Sessions today</span><strong id="pomo-today">0</strong></div>
+          <div class="stat-row"><span>Total sessions</span><strong id="pomo-total">0</strong></div>
+          <div class="stat-row"><span>Focus minutes today</span><strong id="pomo-minutes">0</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section class="view" id="view-analytics">
+      <header class="view-header"><h1>Analytics</h1></header>
+      <div class="analytics-grid">
+        <div class="chart-card glass"><h3>Task Completion (7 days)</h3><canvas id="chart-tasks"></canvas></div>
+        <div class="chart-card glass"><h3>Habit Consistency</h3><canvas id="chart-habits"></canvas></div>
+        <div class="chart-card glass"><h3>Pomodoro Sessions (7 days)</h3><canvas id="chart-pomodoro"></canvas></div>
+        <div class="chart-card glass"><h3>Water Intake (7 days)</h3><canvas id="chart-water"></canvas></div>
+        <div class="chart-card glass"><h3>Mood History (7 days)</h3><canvas id="chart-mood"></canvas></div>
+        <div class="chart-card glass"><h3>Weekly vs Monthly Productivity</h3><canvas id="chart-productivity"></canvas></div>
+      </div>
+    </section>
+
+    <!-- WATER -->
+    <section class="view" id="view-water">
+      <header class="view-header"><h1>Water Tracker</h1></header>
+      <div class="water-layout">
+        <div class="water-progress-card glass">
+          <svg viewBox="0 0 200 200" class="water-ring">
+            <circle cx="100" cy="100" r="88" class="ring-bg"/>
+            <circle cx="100" cy="100" r="88" class="ring-progress" id="water-ring-progress"/>
+          </svg>
+          <div class="water-amount" id="water-amount-display">0 ml</div>
+          <div class="water-goal-label" id="water-goal-label">of 2000 ml goal</div>
+        </div>
+        <div class="water-controls glass">
+          <div class="water-buttons">
+            <button class="btn-secondary" data-add="250">+250ml</button>
+            <button class="btn-secondary" data-add="500">+500ml</button>
+            <button class="btn-secondary" data-add="1000">+1L</button>
+          </div>
+          <div class="water-goal-set">
+            <label>Daily goal (ml)</label>
+            <input type="number" id="water-goal-input" min="500" step="250">
+          </div>
+          <button class="btn-secondary sm" id="water-reset">Reset Today</button>
+          <h4>History</h4>
+          <div id="water-history" class="mini-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOOD -->
+    <section class="view" id="view-mood">
+      <header class="view-header"><h1>Mood Tracker</h1></header>
+      <div class="mood-picker glass">
+        <p>How are you feeling today?</p>
+        <div class="mood-options">
+          <button class="mood-btn" data-mood="Excellent">Excellent</button>
+          <button class="mood-btn" data-mood="Good">Good</button>
+          <button class="mood-btn" data-mood="Normal">Normal</button>
+          <button class="mood-btn" data-mood="Bad">Bad</button>
+          <button class="mood-btn" data-mood="Terrible">Terrible</button>
+        </div>
+      </div>
+      <div class="chart-card glass"><h3>Monthly Mood Statistics</h3><canvas id="chart-mood-monthly"></canvas></div>
+    </section>
+
+    <!-- QUOTES -->
+    <section class="view" id="view-quotes">
+      <header class="view-header"><h1>Daily Quotes</h1></header>
+      <div class="quote-card glass">
+        <p class="quote-text" id="quote-text">"The secret of getting ahead is getting started."</p>
+        <p class="quote-author" id="quote-author">— Mark Twain</p>
+        <button class="btn-primary sm" id="new-quote-btn">Generate New Quote</button>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="view" id="view-profile">
+      <header class="view-header"><h1>Profile</h1></header>
+      <div class="profile-card glass">
+        <div class="profile-pic-wrap">
+          <div class="profile-pic" id="profile-pic-preview">U</div>
+          <label class="btn-secondary sm upload-label">Upload Photo<input type="file" id="profile-pic-input" accept="image/*" hidden></label>
+        </div>
+        <div class="profile-fields">
+          <label>Name<input type="text" id="profile-name"></label>
+          <label>Age<input type="number" id="profile-age" min="1" max="120"></label>
+          <label>Occupation<input type="text" id="profile-occupation"></label>
+          <label>Location<input type="text" id="profile-location"></label>
+          <label>Bio<textarea id="profile-bio" rows="3"></textarea></label>
+          <button class="btn-primary sm" id="save-profile-btn">Save Profile</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="view" id="view-settings">
+      <header class="view-header"><h1>Settings</h1></header>
+
+      <div class="settings-card glass">
+        <h3>Appearance</h3>
+        <div class="setting-row">
+          <span>Theme</span>
+          <div class="segmented" id="theme-segmented">
+            <button data-theme="dark" class="active">Dark</button>
+            <button data-theme="light">Light</button>
+            <button data-theme="system">System</button>
+          </div>
+        </div>
+        <div class="setting-row">
+          <span>Accent Color</span>
+          <div class="accent-swatches" id="accent-swatches">
+            <button class="swatch active" data-accent="#4F8CFF" style="background:#4F8CFF"></button>
+            <button class="swatch" data-accent="#8C6FFF" style="background:#8C6FFF"></button>
+            <button class="swatch" data-accent="#38C2A0" style="background:#38C2A0"></button>
+            <button class="swatch" data-accent="#FF6B6B" style="background:#FF6B6B"></button>
+            <button class="swatch" data-accent="#F2B84B" style="background:#F2B84B"></button>
+          </div>
+        </div>
+        <div class="setting-row">
+          <span>Font Family</span>
+          <select id="font-family-select" class="toolbar-select">
+            <option value="'Inter', sans-serif">Inter</option>
+            <option value="'Georgia', serif">Georgia</option>
+            <option value="'Courier New', monospace">Courier New</option>
+          </select>
+        </div>
+        <div class="setting-row">
+          <span>Font Size</span>
+          <input type="range" id="font-size-range" min="13" max="19" step="1">
+        </div>
+        <div class="setting-row">
+          <span>Animation Speed</span>
+          <input type="range" id="anim-speed-range" min="0" max="2" step="1">
+        </div>
+        <div class="setting-row">
+          <span>Blur Intensity</span>
+          <input type="range" id="blur-range" min="0" max="30" step="2">
+        </div>
+      </div>
+
+      <div class="settings-card glass">
+        <h3>Preferences</h3>
+        <div class="setting-row"><span>Notifications</span><label class="switch"><input type="checkbox" id="toggle-notifications"><span class="slider"></span></label></div>
+        <div class="setting-row"><span>Sound</span><label class="switch"><input type="checkbox" id="toggle-sound" checked><span class="slider"></span></label></div>
+        <div class="setting-row"><span>Auto Save</span><label class="switch"><input type="checkbox" id="toggle-autosave" checked><span class="slider"></span></label></div>
+        <div class="setting-row"><span>Language</span><select class="toolbar-select" disabled><option>English (default)</option></select></div>
+      </div>
+
+      <div class="settings-card glass">
+        <h3>Data Management</h3>
+        <div class="settings-actions">
+          <button class="btn-secondary sm" id="export-data-btn">Export Data</button>
+          <label class="btn-secondary sm upload-label">Import Data<input type="file" id="import-data-input" accept="application/json" hidden></label>
+          <button class="btn-danger sm" id="reset-app-btn">Reset Application</button>
+        </div>
+        <button class="btn-secondary sm" id="reset-settings-btn">Reset Settings to Default</button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============ MODAL ============ -->
+<div id="modal-overlay" class="hidden">
+  <div class="modal glass" id="modal-box"></div>
+</div>
+
+<!-- ============ CONFIRM DIALOG ============ -->
+<div id="confirm-overlay" class="hidden">
+  <div class="modal confirm-modal glass">
+    <p id="confirm-message">Are you sure?</p>
+    <div class="modal-actions">
+      <button class="btn-secondary sm" id="confirm-cancel">Cancel</button>
+      <button class="btn-danger sm" id="confirm-ok">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div id="toast" class="hidden"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
